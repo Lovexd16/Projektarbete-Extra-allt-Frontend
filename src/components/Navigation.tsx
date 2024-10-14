@@ -1,8 +1,16 @@
-import React from "react";
+interface Props {
+  setPage: (page: string) => void;
+}
 
-function Navigation() {
-  return <div>Navigation</div>;
-  //Navigering till alla sidor
+function Navigation(props: Props) {
+  return (
+    <div>
+      <button onClick={() => props.setPage("start")}>Startsida</button>
+      <button onClick={() => props.setPage("listoftemperaturepage")}>
+        Temperaturer
+      </button>
+    </div>
+  );
 }
 
 export default Navigation;
