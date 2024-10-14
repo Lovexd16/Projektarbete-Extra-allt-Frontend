@@ -1,7 +1,11 @@
-import React from "react";
+import ListTemperatures from "../ListTemperatures";
 
 function ListTemperaturePage() {
-  return <div>ListTemperaturePage</div>;
+  return (
+    <>
+      <ListTemperatures />
+    </>
+  );
 }
 
 export default ListTemperaturePage;
