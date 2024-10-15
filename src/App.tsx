@@ -4,11 +4,22 @@ import "./App.css";
 import Navigation from "./components/Navigation";
 import StartPage from "./components/Pages/StartPage";
 import ListTemperaturePage from "./components/Pages/ListTemperaturePage";
+import RegisterPage from "./components/Pages/RegisterPage";
+import LoginPage from "./components/Pages/LoginPage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [page, setPage] = useState<string>("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    const savedState = localStorage.getItem("isLoggedIn");
+    return savedState ? JSON.parse(savedState) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
 
   useEffect(() => {
     let pageUrl = page;
@@ -21,7 +32,7 @@ function App() {
         pageUrl = getUrl;
         setPage(getUrl);
       } else {
-        pageUrl = "start"; //Ändra till login när det finns
+        pageUrl = "start";
       }
     }
     window.history.pushState(null, "", "?page=" + pageUrl);
@@ -31,11 +42,34 @@ function App() {
     <>
       <StompSessionProvider url={`${API_URL}/ws-endpoint`}>
         <h1>Projektarbete: Extra allt</h1>
-        <Navigation setPage={setPage} />
+        <Navigation
+          setPage={setPage}
+          setIsLoggedIn={setIsLoggedIn}
+          isLoggedIn={isLoggedIn}
+        />
 
         {{
-          start: <StartPage />,
-          listoftemperaturepage: <ListTemperaturePage />,
+          start: isLoggedIn ? (
+            <StartPage />
+          ) : (
+            <LoginPage setPage={setPage} setIsLoggedIn={setIsLoggedIn} />
+          ),
+          listoftemperaturepage: isLoggedIn ? (
+            <ListTemperaturePage />
+          ) : (
+            <LoginPage setPage={setPage} setIsLoggedIn={setIsLoggedIn} />
+          ),
+
+          login: !isLoggedIn ? (
+            <LoginPage setPage={setPage} setIsLoggedIn={setIsLoggedIn} />
+          ) : (
+            <StartPage />
+          ),
+          register: !isLoggedIn ? (
+            <RegisterPage setPage={setPage} />
+          ) : (
+            <StartPage />
+          ),
         }[page] || <StartPage />}
       </StompSessionProvider>
     </>
