@@ -1,0 +1,13 @@
+.temperatureListUl {
+    list-style-type: none;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .temperatureListLi {
+    margin-bottom: 10px;
+  }
+
+  .averageTemperature {
+    text-decoration: underline;
+  }
