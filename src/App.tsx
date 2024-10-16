@@ -1,3 +1,4 @@
+import "./utils/global";
 import { useEffect, useState } from "react";
 import { StompSessionProvider } from "react-stomp-hooks";
 import "./App.css";
