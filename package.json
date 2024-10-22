@@ -14,6 +14,7 @@
     "global": "^4.4.0",
     "projektarbete-extra-allt-frontend": "file:",
     "react": "^18.3.1",
+    "react-calendar": "^5.0.0",
     "react-dom": "^18.3.1",
     "react-stomp-hooks": "^3.0.1",
     "sockjs-client": "^1.6.1"
