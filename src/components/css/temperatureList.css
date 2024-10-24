@@ -1,6 +1,6 @@
 .temperatureListUl {
     list-style-type: none;
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
   }
 
@@ -16,3 +16,17 @@
   .averageTemperature {
     text-decoration: underline;
   }
+
+  .selectedDate {
+    text-decoration: underline;
+  }
+
+  .temperatureWrapper {
+    display: flex; /* Använd flexbox för att arrangera element bredvid varandra */
+    justify-content: space-between; /* Fördela utrymmet mellan elementen */
+    align-items: flex-start; /* Justera elementens vertikala position */
+    margin-top: 2rem; /* Avstånd från toppen */
+    border: 1px solid black;
+    padding: 1rem;
+  }
+  
