@@ -77,6 +77,7 @@ function Chat() {
       </div>
       <div>
         <input
+          className="chatInput"
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}

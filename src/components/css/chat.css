@@ -1,6 +1,16 @@
 .chat-container {
     border: 1px solid black;
+    border-top: none;
     padding: 10px;
     height: 300px;
     overflow-y: scroll;
 }
+
+.chatInput {
+    padding: 10px 15px; 
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+
