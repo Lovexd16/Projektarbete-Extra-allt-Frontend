@@ -42,7 +42,7 @@ function App() {
   return (
     <>
       <StompSessionProvider url={`${API_URL}/ws-endpoint`}>
-        <h1>Projektarbete: Extra allt</h1>
+        <h1>Temperaturer med Arduino!</h1>
         <Navigation
           setPage={setPage}
           setIsLoggedIn={setIsLoggedIn}

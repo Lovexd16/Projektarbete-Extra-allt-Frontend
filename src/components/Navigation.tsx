@@ -20,6 +20,7 @@ function Navigation(props: Props) {
       )}
       {!props.isLoggedIn && (
         <>
+          <button onClick={() => props.setPage("start")}>Startsida</button>
           <button onClick={() => props.setPage("login")}>Logga in</button>
           <button onClick={() => props.setPage("register")}>Registrera</button>
         </>
