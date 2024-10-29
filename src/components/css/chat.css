@@ -1,16 +1,56 @@
 .chat-container {
+    background: white;
     border: 1px solid black;
     border-top: none;
     padding: 10px;
     height: 300px;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    > *{
+        list-style: none;
+        
+
+    }
 }
 
 .chatInput {
     padding: 10px 15px; 
-    border: 2px solid #ccc;
+    border: 2px solid black;
     border-radius: 10px;
     font-size: 16px;
 }
+
+.right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    > p {
+        background-color: lightblue;
+        width: max-content;
+    }
+}
+
+.left {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    > p {
+        background-color: lightgray;
+        width: max-content;
+    }
+}
+
+.right, .left {
+    color: black;
+        margin-top: 8px;
+        > p {
+            border-radius: 10px;
+            margin: 0;
+            padding: 10px;
+        }
+}
+
+
 
 
