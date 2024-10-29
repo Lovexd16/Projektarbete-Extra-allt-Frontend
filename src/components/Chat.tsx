@@ -1,97 +1,81 @@
 import "./css/chat.css";
-import { useEffect, useState } from "react";
-import { CompatClient, Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
+import { useState } from "react";
+import { IMessage, useStompClient, useSubscription } from "react-stomp-hooks";
 
-const API_URL = import.meta.env.VITE_API_URL;
+interface Message {
+  content: string;
+  sender: string;
+}
 
-function Chat() {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [inputMessage, setInputMessage] = useState<string>("");
-  const [stompClient, setStompClient] = useState<CompatClient | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
+export default function Chat() {
+  const stompClient = useStompClient();
+  const [listOfMessages, setListOfMessages] = useState<Message[]>([]);
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    setUsername(storedUsername);
+  useSubscription("/topic/chat", (message: IMessage) => {
+    try {
+      const parsed: Message = JSON.parse(message.body);
+      setListOfMessages((prevMessages) => [...prevMessages, parsed]);
+    } catch (e) {
+      console.error("Fel:", e);
+      console.error("Invalid JSON message:", message.body);
+    }
+  });
 
-    const socket = new SockJS(`${API_URL}/ws-endpoint`);
-    const client = Stomp.over(socket);
-
-    client.connect({}, (frame: string) => {
-      console.log("Connected: " + frame);
-
-      if (storedUsername) {
-        client.send("/app/greet", {}, JSON.stringify({ name: storedUsername }));
-      }
-
-      client.subscribe("/topic/chat", (message) => {
-        if (message.body) {
-          const parsedMessage = JSON.parse(message.body);
-          setMessages((prevMessages) => [...prevMessages, parsedMessage.chat]);
-        }
-      });
-
-      client.subscribe("/topic/greeting", (message) => {
-        if (message.body) {
-          const parsedMessage = JSON.parse(message.body);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            parsedMessage.content,
-          ]);
-        }
-      });
-    });
-
-    setStompClient(client);
-
-    return () => {
-      if (client) {
-        client.disconnect(() => {
-          console.log("Disconnected");
+  const sendMessage = (message: string) => {
+    if (message.length === 0) {
+      console.log("Message missing");
+    } else {
+      console.log("Sending message");
+      if (stompClient) {
+        stompClient.publish({
+          destination: "/app/chat",
+          body: JSON.stringify({
+            content: message,
+            sender: localStorage.getItem("username") || "Unknown",
+          }),
         });
       }
-    };
-  }, []);
-
-  const sendMessage = () => {
-    if (stompClient && inputMessage.trim() !== "" && username) {
-      const formattedMessage = `${username}: ${inputMessage}`;
-      stompClient.send(
-        "/app/chat",
-        {},
-        JSON.stringify({ content: formattedMessage })
-      );
-      setInputMessage("");
     }
   };
 
   return (
     <div>
-      <div>
-        <div className="chat-container">
-          {messages.map((message, index) => (
-            <div key={index}>{message}</div>
+      <div className="chat-container">
+        <ul>
+          {listOfMessages.map((message, index) => (
+            <li
+              key={index}
+              className={
+                message.sender === localStorage.getItem("username")
+                  ? "right"
+                  : "left"
+              }
+            >
+              <p>
+                {message.sender === localStorage.getItem("username")
+                  ? message.content
+                  : message.sender + ": " + message.content}
+              </p>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
+
       <div>
-        <input
-          className="chatInput"
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              sendMessage();
-            }
+        <input id="chatMessageInput" className="chatInput" type="text" />
+
+        <button
+          onClick={() => {
+            const inputElement = document.getElementById(
+              "chatMessageInput"
+            ) as HTMLInputElement;
+            sendMessage(inputElement.value);
+            inputElement.value = "";
           }}
-          placeholder="Skriv ditt meddelande här..."
-        />
-        <button onClick={sendMessage}>Skicka</button>
+        >
+          Skicka
+        </button>
       </div>
     </div>
   );
 }
-
-export default Chat;

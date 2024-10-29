@@ -22,10 +22,10 @@
   }
 
   .temperatureWrapper {
-    display: flex; /* Använd flexbox för att arrangera element bredvid varandra */
-    justify-content: space-between; /* Fördela utrymmet mellan elementen */
-    align-items: flex-start; /* Justera elementens vertikala position */
-    margin-top: 2rem; /* Avstånd från toppen */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 2rem;
     border: 1px solid black;
     padding: 1rem;
   }
