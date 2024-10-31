@@ -1,26 +1,32 @@
+/*Löser scroll funktion för listan över temperaturer*/
 .temperatureListUl {
     list-style-type: none;
     max-height: 200px;
     overflow-y: auto;
   }
 
+  /*Margin för de enskilda temperaturvärdena*/
   .temperatureListLi {
     margin-bottom: 10px;
   }
 
+  /*Texten som syns ifall ingen mätning finns för ett valt datum. Ger texten streck och röd värg */
   .temperatureListLiError {
     text-decoration: underline;
     color: red;
   }
 
+  /*Texten som visar meddeltemperaturen, ger texten ett streck under sig*/
   .averageTemperature {
     text-decoration: underline;
   }
 
+  /*Texten som visar det valda datumet, ger texten ett streck under sig*/
   .selectedDate {
     text-decoration: underline;
   }
 
+  /*Css för hela temperatur-rutan. Bland annat border runt och mellanrum mellan innehåll och border. */
   .temperatureWrapper {
     display: flex;
     justify-content: space-between;

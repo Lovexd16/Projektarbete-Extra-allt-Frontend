@@ -36,6 +36,7 @@ function RegisterPage({ setPage }: Props) {
         return res.json();
       })
       .then((data) => {
+        //Vid lyckad registrering tas man till login sidan
         console.log("Användare lades till: ", data);
         setErrorMessage("");
         setPage("login");
