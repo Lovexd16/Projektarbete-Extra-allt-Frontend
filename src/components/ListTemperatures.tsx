@@ -21,6 +21,7 @@ function ListTemperatures() {
     fetch(`${API_URL}/temperatures`)
       .then((res) => res.json())
       .then((data) => {
+        //Sorterar temperaturerna baserat på vilken tid den mättes
         const sortedTemperatures = data.sort(
           (a: Temperature, b: Temperature) => {
             return (
@@ -35,6 +36,7 @@ function ListTemperatures() {
       );
   }, []);
 
+  //Visar bara de temperaturer som mättes på den valda dagen
   const filteredTemperatures = selectedDate
     ? temperatures.filter((temp) => {
         const tempDate = new Date(temp.timestamp);
@@ -46,6 +48,7 @@ function ListTemperatures() {
       })
     : temperatures;
 
+  //Beräknar meddeltemperaturen av alla mätningar för den valda dagen om det finns fler än 0 mätningar
   useEffect(() => {
     if (filteredTemperatures.length > 0) {
       const totalTemperature = filteredTemperatures.reduce(

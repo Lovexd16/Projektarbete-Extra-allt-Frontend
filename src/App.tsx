@@ -49,12 +49,9 @@ function App() {
           isLoggedIn={isLoggedIn}
         />
 
+        {/*Hanterar vilka sidor som ska vara tillgängliga eller inte beroende på inloggningsstatus*/}
         {{
-          start: isLoggedIn ? (
-            <StartPage />
-          ) : (
-            <LoginPage setPage={setPage} setIsLoggedIn={setIsLoggedIn} />
-          ),
+          start: <StartPage />,
           listoftemperaturepage: isLoggedIn ? (
             <ListTemperaturePage />
           ) : (

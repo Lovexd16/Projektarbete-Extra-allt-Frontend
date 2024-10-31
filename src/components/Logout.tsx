@@ -5,6 +5,7 @@ function Logout({
   setIsLoggedIn: (loggedIn: boolean) => void;
   setPage: (page: string) => void;
 }) {
+  //Tar bort token och username from localStorage och skickar användaren till login sidan
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");

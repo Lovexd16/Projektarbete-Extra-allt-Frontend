@@ -1,3 +1,4 @@
+/*Css för själva chatt-rutan*/
 .chat-container {
     background: white;
     border: 1px solid black;
@@ -14,6 +15,7 @@
     }
 }
 
+/*Css för chat input*/
 .chatInput {
     padding: 10px 15px; 
     border: 2px solid black;
@@ -21,6 +23,7 @@
     font-size: 16px;
 }
 
+/*Css för om meddelandet är "right", "left" eller för båda*/
 .right {
     display: flex;
     width: 100%;
