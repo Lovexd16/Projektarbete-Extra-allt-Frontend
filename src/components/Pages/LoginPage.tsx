@@ -39,12 +39,14 @@ function LoginPage({ setPage, setIsLoggedIn }: Props) {
       .then((token) => {
         console.log("Token:", token);
 
+        //När man lyckats logga in sparas username och en token i localstorage och man skickas till start sidan
         localStorage.setItem("username", newLogin.username);
         localStorage.setItem("token", token);
 
         setPage("start");
         setIsLoggedIn(true);
       })
+      //Om man inte lyckas logga in visas text med felmeddelande
       .catch((error) => {
         console.error("Error logging in:", error);
         setErrorMessage(error.message);

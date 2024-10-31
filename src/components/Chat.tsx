@@ -2,6 +2,7 @@ import "./css/chat.css";
 import { useState } from "react";
 import { IMessage, useStompClient, useSubscription } from "react-stomp-hooks";
 
+//Interface som ska innehålla själva meddelandet samt användaren
 interface Message {
   content: string;
   sender: string;
@@ -9,27 +10,31 @@ interface Message {
 
 export default function Chat() {
   const stompClient = useStompClient();
-  const [listOfMessages, setListOfMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
+  //Subscribe till /topic/chat endpointen i backend
   useSubscription("/topic/chat", (message: IMessage) => {
     try {
       const parsed: Message = JSON.parse(message.body);
-      setListOfMessages((prevMessages) => [...prevMessages, parsed]);
+      setMessages((prevMessages) => [...prevMessages, parsed]);
     } catch (e) {
       console.error("Fel:", e);
-      console.error("Invalid JSON message:", message.body);
+      console.error("Fel JSON:", message.body);
     }
   });
 
+  //Metod för att skicka meddelande
   const sendMessage = (message: string) => {
+    //Log ifall inget meddelande skrivits när man försöker skicka
     if (message.length === 0) {
-      console.log("Message missing");
+      console.log("Tomt meddelande");
     } else {
       console.log("Sending message");
       if (stompClient) {
         stompClient.publish({
           destination: "/app/chat",
           body: JSON.stringify({
+            //Sätter content till skrivna meddelandet. Sätter sender till användaren genom att hämta från localStorage
             content: message,
             sender: localStorage.getItem("username") || "Unknown",
           }),
@@ -42,16 +47,18 @@ export default function Chat() {
     <div>
       <div className="chat-container">
         <ul>
-          {listOfMessages.map((message, index) => (
+          {messages.map((message, index) => (
             <li
               key={index}
               className={
+                //Lägger meddelandet till höger eller vänster beroende på om man själv skrivit det
                 message.sender === localStorage.getItem("username")
                   ? "right"
                   : "left"
               }
             >
               <p>
+                {/*Visar även username på vem som skickade meddelandet beroende på om man själv skrivit meddelandet eller inte*/}
                 {message.sender === localStorage.getItem("username")
                   ? message.content
                   : message.sender + ": " + message.content}
@@ -61,6 +68,7 @@ export default function Chat() {
         </ul>
       </div>
 
+      {/*Input och knapp för att skicka meddelande*/}
       <div>
         <input id="chatMessageInput" className="chatInput" type="text" />
 

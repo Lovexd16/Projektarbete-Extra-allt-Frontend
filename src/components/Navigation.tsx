@@ -9,6 +9,7 @@ interface Props {
 function Navigation(props: Props) {
   return (
     <div>
+      {/*De navigationsknapparna som ska synas ifall man är inloggad*/}
       {props.isLoggedIn && (
         <>
           <button onClick={() => props.setPage("start")}>Startsida</button>
@@ -18,6 +19,7 @@ function Navigation(props: Props) {
           <Logout setIsLoggedIn={props.setIsLoggedIn} setPage={props.setPage} />
         </>
       )}
+      {/*De navigationsknapparna som ska synas ifall man inte är inloggad*/}
       {!props.isLoggedIn && (
         <>
           <button onClick={() => props.setPage("start")}>Startsida</button>
